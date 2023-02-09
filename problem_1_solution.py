@@ -28,9 +28,9 @@ def maxLettersPrintable(n):
 
     ops = ["A"] * 3
     printed = 3
-    to_print = n - printed
-    optimum_ops_no = int(to_print / 3)
-    remainder = to_print % 3
+    to_do = n - printed
+    optimum_ops_no = int(to_do / 3)
+    remainder = to_do % 3
     final_ops = ops + (optimum_ops * optimum_ops_no) + (remainder * ["Ctrl-V"])
 
     for op in final_ops:
