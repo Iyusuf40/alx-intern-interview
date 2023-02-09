@@ -1,41 +1,54 @@
 #!/usr/bin/env python3
 """
 module contains:
-   find_max_appropriate_sugar: computes number of tea spoon sugar to
-   make a cake taste good
+   maxLettersPrintable: computes number of A to print
 
 Usage:
     ./problem_1_solution.py n
     where:
-        n = number of tea spoon sugar stated in recipe
+        n = number of operations
 """
 
 
-def find_max_appropriate_sugar(n, isTooSweet):
+def maxLettersPrintable(n):
     """
-    function computes the max number of tea spoon sugar
-    to make a cake based on isTooSweet function
-    arguments:
-        n: the number of tea spoon sugar required to
-           make cake according to recipe
+    finds nunmber of A to be printed after n operations
     """
-    if n == 1:
-        return 1
+    clip_board = 0
+    total_printed = 0
+    ops = []
+    optimum_ops = ["Ctrl-A", "Ctrl-C", "Ctrl-V"]
 
-    while n > 0:
-        if isTooSweet(n) is False:
-            break
-        n -= 1
-    return n
+    if n < 6:
+        outp = "{} -> for the sequence: {}".format(
+            n, ", ".join(["A" for i in range(n)])
+        )
+        print(outp)
+        return
+
+    ops = ["A"] * 3
+    printed = 3
+    to_print = n - printed
+    optimum_ops_no = int(to_print / 3)
+    remainder = to_print % 3
+    final_ops = ops + (optimum_ops * optimum_ops_no) + (remainder * ["Ctrl-V"])
+
+    for op in final_ops:
+        if op == "A":
+            total_printed += 1
+        elif op == "Ctrl-A":
+            copied = total_printed
+        elif op == "Ctrl-C":
+            clip_board = copied
+        elif op == "Ctrl-V":
+            total_printed += clip_board
+    outp = "{} -> for the sequence: {}".format(
+        total_printed, ", ".join(final_ops)
+        )
+    print(outp)
 
 
 if __name__ == "__main__":
-
-    def isTooSweet(x):
-        if x >= 5:
-            return True
-        return False
-
     import sys
 
     if len(sys.argv) < 2:
@@ -52,5 +65,4 @@ if __name__ == "__main__":
         print("n must be greater than 0")
         sys.exit(1)
 
-    for i in range(n, 0, -1):
-        print(find_max_appropriate_sugar(i, isTooSweet))
+    maxLettersPrintable(n)
