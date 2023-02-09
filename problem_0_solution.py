@@ -5,7 +5,7 @@ module contains:
    make a cake taste good
 
 Usage:
-    ./problem_1_solution.py n
+    ./problem_0_solution.py n
     where:
         n = number of tea spoon sugar stated in recipe
 """
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print("usage: ./problem_1_solution.py n")
+        print("usage: ./problem_0_solution.py n")
         sys.exit(1)
 
     try:
