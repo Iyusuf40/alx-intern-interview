@@ -10,7 +10,7 @@ Usage:
 """
 
 
-def maxLettersPrintable(n, pre_print):
+def maxLettersPrintable(n):
     """
     finds nunmber of A to be printed after n operations
     """
@@ -19,11 +19,15 @@ def maxLettersPrintable(n, pre_print):
     ops = []
     optimum_ops = ["Ctrl-A", "Ctrl-C", "Ctrl-V"]
 
-    if n < pre_print:
-        pre_print = n
+    if n < 6:
+        outp = "{} -> for the sequence: {}".format(
+            n, ", ".join(["A" for i in range(n)])
+        )
+        print(outp)
+        return
 
-    printed = pre_print
-    ops = ["A"] * printed
+    ops = ["A"] * 3
+    printed = 3
     to_do = n - printed
     optimum_ops_no = int(to_do / 3)
     remainder = to_do % 3
@@ -41,26 +45,7 @@ def maxLettersPrintable(n, pre_print):
     outp = "{} -> for the sequence: {}".format(
         total_printed, ", ".join(final_ops)
         )
-    return total_printed, outp
-
-
-def main(n):
-    """ main func """
-    if n < 6:
-        outp = "{} -> for the sequence: {}".format(
-            n, ", ".join(["A" for i in range(n)])
-        )
-        print(outp)
-        return
-
-    options = [maxLettersPrintable(n, i) for i in range(3, 8)]
-    init = options[0][0]
-    res = options[0][1]
-    for option in options:
-        if init < option[0]:
-            res = option[1]
-            init = option[0]
-    print(res)
+    print(outp)
 
 
 if __name__ == "__main__":
@@ -80,4 +65,4 @@ if __name__ == "__main__":
         print("n must be greater than 0")
         sys.exit(1)
 
-    main(n)
+    maxLettersPrintable(n)
