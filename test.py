@@ -7,6 +7,27 @@ Usage:
     ./problem_1_solution.py n
     where:
         n = number of operations
+
+Approach:
+    best pattern is ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
+    therefore ensure it is achieved
+    by:
+        if to_do is divisible by 4:
+            then do ["Ctrl-A", "Ctrl-C", "Ctrl-V"]
+        else:
+            do "Ctrl-V"
+        This pattern ensures ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
+        pattern is followed which results in highest number of A printed
+    example:
+        if printed == 10 and operations to_do == 8:
+            doing ["Ctrl-A", "Ctrl-C", "Ctrl-V"] twice
+            and   ["Ctrl-V", "Ctrl-V"]
+            will print --> 80
+
+            while
+            doing ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V",
+                   "Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
+            will print --> 90
 """
 
 
@@ -27,15 +48,25 @@ def maxLettersPrintable(n, pre_print):
     to_do = n - printed
 
     while to_do != 0:
-        if to_do > 2 and (printed * 2) > (clip_board * 3):
+        if to_do % 4 and "Ctrl-C" in ops:
+            # not at the start of 4 sequence so
+            # paste from clipboard
+            ops += ["Ctrl-V"]
+            done = 1
+            printed += clip_board
+        elif to_do > 2 and (printed * 2) > (clip_board * 3):
+            # at the start of 4 op sequece
+            # so copy all and paste
             ops += optimum_ops
             done = 3
+            # when to_do is reduced by 3 it will automatically
+            # mean that only one operation will make it
+            # become a 4 sequence again
+            # so if to_do % 4 and "Ctrl-C" in ops: block will run
+            # only once
+            # giving the pattern ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V""]
             clip_board = printed
             printed *= 2
-        elif to_do > 2:
-            ops += ["Ctrl-V"] * 3
-            done = 3
-            printed += clip_board * 3         
         else:
             ops += ["Ctrl-V"]
             done = 1
@@ -60,7 +91,7 @@ def maxLettersPrintable(n, pre_print):
 
 
 def main(n):
-    """ main func """
+    """main func"""
     if n < 6:
         outp = "{} -> for the sequence: {}".format(
             n, ", ".join(["A" for i in range(n)])

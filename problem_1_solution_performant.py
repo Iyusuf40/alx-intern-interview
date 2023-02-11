@@ -7,31 +7,10 @@ Usage:
     ./problem_1_solution.py n
     where:
         n = number of operations
-
-Approach:
-    best pattern is ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
-    therefore ensure it is achieved
-    by:
-        if to_do is divisible by 4:
-            then do ["Ctrl-A", "Ctrl-C", "Ctrl-V"]
-        else:
-            do "Ctrl-V"
-        This pattern ensures ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
-        pattern is followed which results in highest number of A printed
-    example:
-        if printed == 10 and operations to_do == 8:
-            doing ["Ctrl-A", "Ctrl-C", "Ctrl-V"] twice
-            and   ["Ctrl-V", "Ctrl-V"]
-            will print --> 80
-
-            while
-            doing ["Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V",
-                   "Ctrl-A", "Ctrl-C", "Ctrl-V", "Ctrl-V"]
-            will print --> 90
 """
 
 
-def maxLettersPrintable(n, pre_print):
+def maxLettersPrintable(n, pre_print=3):
     """
     finds nunmber of A to be printed after n operations
     """
@@ -39,35 +18,23 @@ def maxLettersPrintable(n, pre_print):
     total_printed = 0
     ops = []
     optimum_ops = ["Ctrl-A", "Ctrl-C", "Ctrl-V"]
+    h_optimum_ops = optimum_ops + ["Ctrl-V"]
 
     if n < pre_print:
         pre_print = n
 
+    ops = ["A"] * pre_print
     printed = pre_print
-    ops = ["A"] * printed
     to_do = n - printed
-
-    while to_do != 0:
-        if to_do % 4 and "Ctrl-C" in ops:
-            ops += ["Ctrl-V"]
-            done = 1
-            printed += clip_board
-        elif to_do > 2 and (printed * 2) > (clip_board * 3):
-            ops += optimum_ops
-            done = 3
-            clip_board = printed
-            printed *= 2
-        elif to_do > 2:
-            ops += ["Ctrl-V"] * 3
-            done = 3
-            printed += clip_board * 3
-        else:
-            ops += ["Ctrl-V"]
-            done = 1
-            printed += clip_board
-        to_do -= done
-
-    final_ops = ops
+    divisor = 4
+    optimum_ops_no = int(to_do / divisor)
+    if optimum_ops_no == 0:
+        divisor = 3
+        optimum_ops_no = int(to_do / divisor)
+    if divisor == 4:
+        optimum_ops = h_optimum_ops
+    remainder = to_do % divisor
+    final_ops = ops + (optimum_ops * optimum_ops_no) + (remainder * ["Ctrl-V"])
 
     for op in final_ops:
         if op == "A":
