@@ -25,9 +25,28 @@ def maxLettersPrintable(n, pre_print):
     printed = pre_print
     ops = ["A"] * printed
     to_do = n - printed
-    optimum_ops_no = int(to_do / 3)
-    remainder = to_do % 3
-    final_ops = ops + (optimum_ops * optimum_ops_no) + (remainder * ["Ctrl-V"])
+
+    while to_do != 0:
+        if to_do % 4 and "Ctrl-C" in ops:
+            ops += ["Ctrl-V"]
+            done = 1
+            printed += clip_board
+        elif to_do > 2 and (printed * 2) > (clip_board * 3):
+            ops += optimum_ops
+            done = 3
+            clip_board = printed
+            printed *= 2
+        elif to_do > 2:
+            ops += ["Ctrl-V"] * 3
+            done = 3
+            printed += clip_board * 3
+        else:
+            ops += ["Ctrl-V"]
+            done = 1
+            printed += clip_board
+        to_do -= done
+
+    final_ops = ops
 
     for op in final_ops:
         if op == "A":
@@ -45,7 +64,7 @@ def maxLettersPrintable(n, pre_print):
 
 
 def main(n):
-    """ main func """
+    """main func"""
     if n < 6:
         outp = "{} -> for the sequence: {}".format(
             n, ", ".join(["A" for i in range(n)])
