@@ -32,6 +32,10 @@ def maxLettersPrintable(n, pre_print):
             done = 3
             clip_board = printed
             printed *= 2
+        elif to_do > 2:
+            ops += ["Ctrl-V"] * 3
+            done = 3
+            printed += clip_board * 3         
         else:
             ops += ["Ctrl-V"]
             done = 1
